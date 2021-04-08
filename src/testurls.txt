@@ -1,0 +1,5 @@
+http://localhost:3000/auth?client_id=azure&response_type=code id_token&redirect_uri=https://example.com/&scope=openid%20email&nonce=foobar
+
+http://localhost:3000/.well-known/openid-configuration
+
+http://10.0.2.15:3000/auth?client_id=azure&response_type=code id_token&redirect_uri=https://example.com/&scope=openid%20email&nonce=foobar
