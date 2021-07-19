@@ -24,7 +24,7 @@ db.defaults({
 
 class Account {
   // This interface is required by oidc-provider
-  static async findAccount(ctx, id) {
+  static async findAccount(ctx, id, token) {
     // This would ideally be just a check whether the account is still in your storage
     const account = db.get('users').find({ id }).value();
     if (!account) {
@@ -34,11 +34,11 @@ class Account {
     return {
       accountId: id,
       // and this claims() method would actually query to retrieve the account claims
-      async claims() {
+      async claims(use,scope,claims,rejected) {
         return {
           sub: id,
           email: account.email,
-          email_verified: account.email_verified,
+          email_verified: account.email_verified
         };
       },
     };

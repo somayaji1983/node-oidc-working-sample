@@ -27,7 +27,7 @@ const oidc = new Provider(`https://localhost:3000`, {
       client_secret: 'azure',
       redirect_uris: ['https://jwt.io','https://example.com/'], // using jwt.io as redirect_uri to show the ID Token contents
       response_types: ['id_token','code','code id_token'],
-      grant_types: ['implicit','authorization_code','client_credentials'],
+      grant_types: ['implicit','authorization_code','client_credentials','refresh_token'],
       token_endpoint_auth_method: 'client_secret_basic',
     },
   ],
@@ -37,6 +37,7 @@ const oidc = new Provider(`https://localhost:3000`, {
   pkce: {
     required: () => false,
   },
+  scopes: ['openid', 'offline_access', 'email', 'profile'],
   jwks,
 
   // oidc-provider only looks up the accounts by their ID when it has to read the claims,
@@ -48,7 +49,11 @@ const oidc = new Provider(`https://localhost:3000`, {
   // email_verified claims
   claims: {
     openid: ['sub'],
-    email: ['email', 'email_verified'],
+    address: ['address'], 
+    email: ['email', 'email_verified'], 
+    phone: ['phone_number', 'phone_number_verified'], 
+    profile: ['birthdate', 'family_name', 'gender', 'given_name', 'locale', 'middle_name', 'name', 
+      'nickname', 'picture', 'preferred_username', 'profile', 'updated_at', 'website', 'zoneinfo'] 
   },
 
   // let's tell oidc-provider where our own interactions will be
@@ -60,10 +65,16 @@ const oidc = new Provider(`https://localhost:3000`, {
       return `/interaction/${interaction.uid}`;
     },
   },
+  // if false then id_token in responseType=code request will also have claims
+  conformIdTokenClaims: { enabled: false}, 
   features: {
     // disable the packaged interactions
     devInteractions: { enabled: false },
-    clientCredentials: { enabled: true }
+    clientCredentials: { enabled: true },
+    revocation: { enabled: true }, 
+    introspection: { enabled: true}, 
+    claimsParameter: { enabled: true}, 
+    userinfo: { enabled: true}, 
   },
 });
 

@@ -1,5 +1,24 @@
-http://localhost:3000/auth?client_id=azure&response_type=code id_token&redirect_uri=https://example.com/&scope=openid%20email&nonce=foobar
+-- Refresh Token
+http://localhost:3000/auth?client_id=azure&response_type=id_token&redirect_uri=https://example.com/&scope=openid email profile offline_access&nonce=foobar&prompt=consent
+
+-- Response only with id_token
+http://localhost:3000/auth?client_id=azure&response_type=id_token&redirect_uri=https://example.com/&scope=openid email&nonce=foobar
+
+-- Response only code 
+http://localhost:3000/auth?client_id=azure&response_type=code&redirect_uri=https://example.com/&scope=openid email profile&nonce=foobar
+
+-- Response only code but get id_token with claims due to  conformIdTokenClaims=false
+http://localhost:3000/auth?client_id=azure&response_type=code&redirect_uri=https://example.com/&scope=openid email profile&nonce=foobar&claims={"id_token":{"email":null}}
+
+-- Response both code and id_token
+http://localhost:3000/auth?client_id=azure&response_type=code id_token&redirect_uri=https://example.com/&scope=openid email&nonce=foobar
+
 
 http://localhost:3000/.well-known/openid-configuration
 
 http://10.0.2.15:3000/auth?client_id=azure&response_type=code id_token&redirect_uri=https://example.com/&scope=openid%20email&nonce=foobar
+
+Reference:
+- https://github.com/panva/node-oidc-provider/discussions/959
+- https://github.com/panva/node-oidc-provider/issues/608
+- https://github.com/panva/node-oidc-provider/pull/298
