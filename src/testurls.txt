@@ -1,5 +1,5 @@
 -- Refresh Token
-http://localhost:3000/auth?client_id=azure&response_type=id_token&redirect_uri=https://example.com/&scope=openid email profile offline_access&nonce=foobar&prompt=consent
+http://localhost:3000/auth?client_id=azure&response_type=code id_token&redirect_uri=https://example.com/&scope=openid email profile offline_access&nonce=foobar&prompt=consent
 
 -- Response only with id_token
 http://localhost:3000/auth?client_id=azure&response_type=id_token&redirect_uri=https://example.com/&scope=openid email&nonce=foobar
